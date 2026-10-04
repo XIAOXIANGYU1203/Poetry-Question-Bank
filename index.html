@@ -5,40 +5,54 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>诗词大会小学高段在线题库</title>
 <style>
-*{box-sizing:border-box}
-body{font-family:system-ui,"Microsoft YaHei",sans-serif;background:#f5f7fb;margin:0;padding:20px;color:#1f2937}
-.box{max-width:820px;margin:auto;background:#fff;padding:20px;border-radius:16px;box-shadow:0 8px 30px #0001}
-.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px}
-.tab{border:1px solid #e5e7eb;background:#f8fafc;color:#374151;border-radius:999px;padding:7px 14px;font-size:14px;cursor:pointer}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{font-family:system-ui,"Microsoft YaHei",sans-serif;background:#f5f7fb;margin:0;padding:12px;color:#1f2937}
+.box{max-width:820px;margin:auto;background:#fff;padding:16px;border-radius:16px;box-shadow:0 8px 30px #0001}
+
+.tabs{display:flex;gap:6px;margin-bottom:10px}
+.tab{flex:1;text-align:center;border:1px solid #e5e7eb;background:#f8fafc;color:#374151;border-radius:999px;padding:8px 4px;font-size:13px;cursor:pointer;white-space:nowrap}
 .tab.on{background:#2563eb;border-color:#2563eb;color:#fff}
-.sections{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
-.secBtn{border:1px dashed #cbd5e1;background:#fff;color:#334155;border-radius:8px;padding:6px 12px;font-size:13px;cursor:pointer}
+
+.sections{display:flex;gap:6px;margin-bottom:12px}
+.secBtn{flex:1;text-align:center;border:1px dashed #cbd5e1;background:#fff;color:#334155;border-radius:8px;padding:7px 4px;font-size:13px;cursor:pointer;white-space:nowrap}
 .secBtn:hover{background:#f1f5f9;border-color:#94a3b8}
-.bar{display:flex;justify-content:space-between;color:#555;font-size:14px;margin-bottom:12px;flex-wrap:wrap;gap:6px}
-.q{font-size:18px;font-weight:600;line-height:1.7;margin-bottom:12px}
-.o{display:block;padding:12px;border:1px solid #ddd;border-radius:10px;margin:8px 0;cursor:pointer}
+
+.bar{display:flex;justify-content:space-between;color:#555;font-size:13px;margin-bottom:10px;flex-wrap:wrap;gap:4px}
+.q{font-size:17px;font-weight:600;line-height:1.7;margin-bottom:10px}
+.o{display:block;padding:11px;border:1px solid #ddd;border-radius:10px;margin:7px 0;cursor:pointer;font-size:15px;line-height:1.5}
 .o:hover{background:#f0f9ff;border-color:#93c5fd}
-.btns{display:flex;gap:10px;margin-top:16px;flex-wrap:wrap}
-button{border:0;border-radius:10px;padding:11px 18px;background:#2563eb;color:#fff;font-size:15px;cursor:pointer}
+
+.btns{display:flex;gap:6px;margin-top:14px}
+.btns button{flex:1;text-align:center;white-space:nowrap;padding:10px 4px;font-size:14px}
+
+button{border:0;border-radius:10px;background:#2563eb;color:#fff;cursor:pointer}
 button:disabled{background:#9ca3af;cursor:not-allowed}
 .sec{background:#e5e7eb;color:#111}
 .favBtn{background:#fff7ed;color:#c2410c;border:1px solid #fdba74}
 .favBtn.on{background:#f59e0b;color:#fff;border-color:#f59e0b}
-.res{margin-top:14px;padding:12px;border-radius:10px;display:none;line-height:1.6}
+
+.res{margin-top:12px;padding:11px;border-radius:10px;display:none;line-height:1.6;font-size:14px}
 .ok{background:#ecfdf5;color:#065f46}
 .no{background:#fef2f2;color:#991b1b}
-.empty{text-align:center;padding:40px 0;color:#6b7280;line-height:1.8}
+.empty{text-align:center;padding:36px 0;color:#6b7280;line-height:1.8}
 .tip{font-size:13px;color:#6b7280;margin-top:6px}
-.foot{margin-top:22px;text-align:center}
-.foot button{font-size:13px;padding:7px 14px}
+
+.foot{margin-top:18px;display:flex;gap:6px}
+.foot button{flex:1;font-size:13px;padding:8px 4px;white-space:nowrap}
+
+@media (max-width:360px){
+  .tab{font-size:12px;padding:7px 2px}
+  .btns button{font-size:13px;padding:9px 2px}
+  .foot button{font-size:12px;padding:7px 2px}
+}
 </style>
 </head>
 <body>
 <div class="box">
   <div class="tabs">
-    <button class="tab on" data-mode="all">全部题目</button>
-    <button class="tab" data-mode="fav">⭐ 我的收藏 <span id="favCount">0</span></button>
-    <button class="tab" data-mode="wrong">❌ 错题本 <span id="wrongCount">0</span></button>
+    <button class="tab on" data-mode="all">全题库</button>
+    <button class="tab" data-mode="fav">收藏夹 <span id="favCount">0</span></button>
+    <button class="tab" data-mode="wrong">错题本 <span id="wrongCount">0</span></button>
   </div>
 
   <div class="sections">
@@ -51,9 +65,9 @@ button:disabled{background:#9ca3af;cursor:not-allowed}
   <div id="q"></div>
 
   <div class="btns">
-    <button id="prev" class="sec">← 上一题</button>
-    <button id="fav" class="favBtn">☆ 收藏本题</button>
-    <button id="sub">提交本题</button>
+    <button id="prev" class="sec">上一题</button>
+    <button id="fav" class="favBtn">收藏</button>
+    <button id="sub">提交</button>
   </div>
 
   <div id="res" class="res"></div>
@@ -110,7 +124,7 @@ function saveProgress(){
 function syncFavBtn(){
   const idx=list[pos];
   const on=favs.has(idx);
-  favBtn.textContent=on?'★ 已收藏':'☆ 收藏本题';
+  favBtn.textContent=on?'★已收藏':'收藏';
   favBtn.classList.toggle('on',on);
 }
 function markAnsweredInputs(){
@@ -118,8 +132,7 @@ function markAnsweredInputs(){
   if(!answeredSet.has(idx)) return;
   const x=Q[idx];
   const correct=Array.isArray(x[3])?[...x[3]].sort((a,b)=>a-b):[x[3]];
-  const inputs=document.querySelectorAll('input[name="a"]');
-  inputs.forEach(el=>{
+  document.querySelectorAll('input[name="a"]').forEach(el=>{
     const v=+el.value;
     el.checked=correct.includes(v);
     el.disabled=true;
@@ -139,14 +152,14 @@ function render(){
   if(list.length===0){
     pEl.textContent='';
     sEl.textContent='得分：'+score;
-    const msg = mode==='fav' ? '还没有收藏任何题目，去“全部题目”里点 ☆ 收藏吧' : '错题本是空的，真棒！';
+    const msg = mode==='fav' ? '还没有收藏任何题目' : '错题本是空的，真棒！';
     qEl.innerHTML='<div class="empty">'+msg+'</div>';
     favBtn.disabled=true;subBtn.disabled=true;prevBtn.disabled=true;
     return;
   }
 
   const idx=list[pos], x=Q[idx];
-  pEl.textContent='第 '+(pos+1)+' / '+list.length+' 题（题库编号 '+(idx+1)+'）';
+  pEl.textContent='第 '+(pos+1)+' / '+list.length+' 题（编号 '+(idx+1)+'）';
   sEl.textContent='得分：'+score;
 
   let h='<div class="q">'+(pos+1)+'. '+x[1]+'</div>';
