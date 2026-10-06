@@ -77,9 +77,9 @@ button:disabled{background:#9ca3af;cursor:not-allowed}
 
 <script>
 const Q = [].concat(window.Q1 || [], window.Q2 || [], window.Q3 || []);
-const LS_FAV='poemFav_v7';
-const LS_WRONG='poemWrong_v7';
-const LS_PROG='poemProgress_v7';
+const LS_FAV='poemFav_v8';
+const LS_WRONG='poemWrong_v8';
+const LS_PROG='poemProgress_v8';
 
 const $=id=>document.getElementById(id);
 const pEl=$('p'), sEl=$('s'), qEl=$('q'), resEl=$('res');
@@ -122,6 +122,9 @@ function syncFavBtn(){
   favBtn.classList.toggle('on',on);
 }
 function markAnsweredInputs(){
+  // 只有“全部”模式才把已答过的题锁定
+  // 收藏夹、错题本允许重做
+  if(mode!=='all') return;
   const idx=list[pos];
   if(!answeredSet.has(idx)) return;
   const x=Q[idx];
@@ -136,7 +139,7 @@ function markAnsweredInputs(){
   resEl.innerHTML='<b>本题已作答</b><br>正确答案：'+correct.map(v=>String.fromCharCode(65+v)).join('、');
   subBtn.disabled=true;
   answered=true;
-  nextBtn.disabled = (pos>=list.length-1);
+  nextBtn.disabled=(pos>=list.length-1);
 }
 function render(){
   answered=false;
@@ -195,13 +198,14 @@ subBtn.onclick=()=>{
   answered=true;
   let tip='';
   if(ok){
-    if(!answeredSet.has(idx)) score++;
+    // 只有第一次答对才加分，避免重复刷分
+    if(mode==='all' && !answeredSet.has(idx)) score++;
     if(wrongs.has(idx)){wrongs.delete(idx);tip='已从错题本移除';}
   }else{
     if(!wrongs.has(idx)) tip='已加入错题本';
     wrongs.add(idx);
   }
-  answeredSet.add(idx);
+  if(mode==='all') answeredSet.add(idx);
   save();updateCounts();saveProgress();
   sEl.textContent='得分：'+score;
   subBtn.disabled=true;
