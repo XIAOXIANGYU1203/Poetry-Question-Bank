@@ -115,10 +115,10 @@ function saveProgress(){
   save();
 }
 function syncFavBtn(){
-  if(list.length===0){favBtn.textContent='收藏夹';favBtn.classList.remove('on');return;}
+  if(list.length===0){favBtn.textContent='收藏';favBtn.classList.remove('on');return;}
   const idx=list[pos];
   const on=favs.has(idx);
-  favBtn.textContent=on?'★已收藏':'收藏夹';
+  favBtn.textContent=on?'★已收藏':'收藏';
   favBtn.classList.toggle('on',on);
 }
 function markAnsweredInputs(){
